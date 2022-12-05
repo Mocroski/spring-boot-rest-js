@@ -16,26 +16,47 @@
 
 	<h3>Spring Boot REST API CRUD</h3>
 
-<form action="" id="formCadastroUser">
-<div class="mb-3">
-  <label for="exampleFormControlInput1" class="form-label">ID</label>
-  <input type="text" class="form-control" id="id" readonly="readonly">
-</div>
-<div class="mb-3">
-  <label for="exampleFormControlInput1" class="form-label">Nome</label>
-  <input type="text" class="form-control" id="nome" placeholder="Insira o Nome do Usuario" required="required">
-</div>
-<div class="mb-3">
-  <label for="exampleFormControlInput1" class="form-label">Idade</label>
-  <input type="number" class="form-control" id="idade">
-</div>
-</form>
+	<form action="" id="formCadastroUser">
+		<div class="mb-3">
+			<label for="exampleFormControlInput1" class="form-label">ID</label> <input
+				type="text" class="form-control" id="id" readonly="readonly">
+		</div>
+		<div class="mb-3">
+			<label for="exampleFormControlInput1" class="form-label">Nome</label>
+			<input type="text" class="form-control" id="nome"
+				placeholder="Insira o Nome do Usuario" required="required">
+		</div>
+		<div class="mb-3">
+			<label for="exampleFormControlInput1" class="form-label">Idade</label>
+			<input type="number" class="form-control" id="idade">
+		</div>
+	</form>
 
-	
+	<button type="button" class="btn btn-primary" onclick="salvarUsuario()">Salvar</button>
+
+
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+		integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+		crossorigin="anonymous"></script>
+
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 		crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+	function salvarUsuario() {
+		
+		var id = $("#id").val();
+		
+		var nome = $("#nome").val();
+		
+		var idade = $("#idade").val();
+		
+		alert(id + " - " + nome + " - " + idade);
+	}
+	
+</script>
 
 </body>
 </html>
