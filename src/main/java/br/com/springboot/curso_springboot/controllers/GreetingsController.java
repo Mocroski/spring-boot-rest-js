@@ -32,11 +32,12 @@ public class GreetingsController {
 	private UsuarioRepository usuarioRepository;
     
    
-    @RequestMapping(value = "/{name}", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public String greetingText(@PathVariable String name) {
-        return "Hello SpringBoot " + name + "!";
-    }
+	/*
+	 * @RequestMapping(value = "/{name}", method = RequestMethod.GET)
+	 * 
+	 * @ResponseStatus(HttpStatus.OK) public String greetingText(@PathVariable
+	 * String name) { return "Hello SpringBoot " + name + "!"; }
+	 */
     
     @RequestMapping(value = "/olamundo/{nome}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
