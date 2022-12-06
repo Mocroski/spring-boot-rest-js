@@ -33,7 +33,50 @@
 	</form>
 
 	<button type="button" class="btn btn-primary" onclick="salvarUsuario()">Salvar</button>
-	<button type="button" class="btn btn-secondary" onclick="document.getElementById('formCadastroUser').reset();">Novo</button>
+	<button type="button" class="btn btn-secondary"
+		onclick="document.getElementById('formCadastroUser').reset();">Novo</button>
+	<button type="button" class="btn btn-danger" data-bs-toggle="modal"
+		data-bs-target="#modalPesquisarUser">Pesquisar</button>
+
+
+	<div class="modal fade" id="modalPesquisarUser" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Pesquisa de
+						Usuario</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="mb-3">
+							<label for="recipient-name" class="col-form-label">Informe
+								o Nome:</label> <input type="text" class="form-control" id="nameBusca">
+						</div>
+						<button type="button" class="btn btn-success" onclick="pesquisaUser()">Pesquisar</button>
+					</form>
+					<table class="table"id="tabelaResultados">
+						<thead>
+							<tr>
+								<th scope="col">ID</th>
+								<th scope="col">Nome</th>
+								<th scope="col">Editar</th>
+							</tr>
+						</thead>
+						<tbody>
+							
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 	<script src="https://code.jquery.com/jquery-3.6.1.min.js"
@@ -45,32 +88,60 @@
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 		crossorigin="anonymous"></script>
 
-<script type="text/javascript">
-	function salvarUsuario() {
+	<script type="text/javascript">
+	
+	function pesquisarUser() {
+		var nome =  $('#nameBusca').val();
 		
-		var id = $("#id").val();
-		
-		var nome = $("#nome").val();
-		
-		var idade = $("#idade").val();
-		
-		
-		$.ajax({ //receita de bolo do ajax
-			method: "POST",
-			url: "salvar",
-			data: JSON.stringify({id : id, nome : nome, idade : idade}),
-			contentType: "application/json; charset=utf-8",
-			success: function (response) {
-				$("#id").val(response.id);
-				alert("Salvo com Sucesso!!");
-			}
-		}).fail(function(xhr, status, errorThrown) {
-			alert("Erro ao salvar: " + xhr.reposnseText);
-		});
-		
+		if(nome != null && nome.trim() != ''){
+			
+			$.ajax({ //receita de bolo do ajax
+				method : "GET",
+				url : "buscarPorNome",
+				data : "name= " + nome ,
+				success : function(response) {
+					$('#tabelaResultados > tbody > tr').remove();
+					
+					for(var i = 0; i < response.length; i++) {
+						$('#tabelaResultados > tbody ').append('<tr><td>'+response[i].id+'<t/td></tr>');
+					}
+				}
+			}).fail(function(xhr, status, errorThrown) {
+				alert("Erro ao Buscar: " + xhr.reposnseText);
+			});
+		}
 	}
 	
-</script>
+	
+	
+	
+		function salvarUsuario() {
+
+			var id = $("#id").val();
+
+			var nome = $("#nome").val();
+
+			var idade = $("#idade").val();
+
+			$.ajax({ //receita de bolo do ajax
+				method : "POST",
+				url : "salvar",
+				data : JSON.stringify({
+					id : id,
+					nome : nome,
+					idade : idade
+				}),
+				contentType : "application/json; charset=utf-8",
+				success : function(response) {
+					$("#id").val(response.id);
+					alert("Salvo com Sucesso!!");
+				}
+			}).fail(function(xhr, status, errorThrown) {
+				alert("Erro ao salvar: " + xhr.reposnseText);
+			});
+
+		}
+	</script>
 
 </body>
 </html>
