@@ -35,8 +35,7 @@
 	<button type="button" class="btn btn-primary" onclick="salvarUsuario()">Salvar</button>
 	<button type="button" class="btn btn-secondary"
 		onclick="document.getElementById('formCadastroUser').reset();">Novo</button>
-	<button type="button" class="btn btn-danger" data-bs-toggle="modal"
-		data-bs-target="#modalPesquisarUser">Pesquisar</button>
+	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalPesquisarUser">Pesquisar</button>
 
 
 	<div class="modal fade" id="modalPesquisarUser" tabindex="-1"
@@ -55,9 +54,9 @@
 							<label for="recipient-name" class="col-form-label">Informe
 								o Nome:</label> <input type="text" class="form-control" id="nameBusca">
 						</div>
-						<button type="button" class="btn btn-success" onclick="pesquisaUser()">Pesquisar</button>
+						<button type="button" class="btn btn-success" onclick="pesquisarUser()">Pesquisar</button>
 					</form>
-					<table class="table"id="tabelaResultados">
+					<table class="table"id="tabelaresultados">
 						<thead>
 							<tr>
 								<th scope="col">ID</th>
@@ -100,18 +99,37 @@
 				url : "buscarPorNome",
 				data : "name= " + nome ,
 				success : function(response) {
-					$('#tabelaResultados > tbody > tr').remove();
+					$('#tabelaresultados > tbody > tr').remove();
 					
 					for(var i = 0; i < response.length; i++) {
-						$('#tabelaResultados > tbody ').append('<tr><td>'+response[i].id+'<t/td></tr>');
+						$('#tabelaresultados > tbody').append('<tr><td>'+response[i].id+'</td><td>'+response[i].nome+'</td><td><button type="button" onclick="colocarEmEdicao('+response[i].id+')" class="btn btn-primary">Ver</button></td></tr>');
 					}
 				}
 			}).fail(function(xhr, status, errorThrown) {
-				alert("Erro ao Buscar: " + xhr.reposnseText);
+				alert("Erro ao Buscar: " + xhr.responseText);
 			});
 		}
 	}
 	
+		function colocarEmEdicao(id) {
+			
+			
+			$.ajax({ //receita de bolo do ajax
+				method : "GET",
+				url : "buscaruserid",
+				data : "idUser=" + id ,
+				success : function(response) {
+					
+					 $("#id").val(response.id);
+					 $("#nome").val(response.nome);
+					 $("#idade").val(response.idade);
+				
+					 $('#modalPesquisarUser').modal('hide');
+				}
+			}).fail(function(xhr, status, errorThrown) {
+				alert("Erro ao buscar id: " + xhr.responseText);
+			});
+		}
 	
 	
 	
@@ -137,7 +155,7 @@
 					alert("Salvo com Sucesso!!");
 				}
 			}).fail(function(xhr, status, errorThrown) {
-				alert("Erro ao salvar: " + xhr.reposnseText);
+				alert("Erro ao salvar: " + xhr.responseText);
 			});
 
 		}
